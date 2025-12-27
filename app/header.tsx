@@ -1,5 +1,5 @@
 import Link from "next/link";
-import CustomShapedHoverImage from "./custom-shaped-hover-image";
+import CustomShapedHoverImage from "./components/custom-shaped-hover-image";
 
 export default function Header() {
   return (
@@ -16,7 +16,7 @@ export default function Header() {
           />
         </Link>
 
-        <ol className="text-sm flex items-center justify-center gap-4 font-[family-name:var(--font-geist-mono)]">
+        <ol className="text-sm flex items-center justify-center gap-4 font-[family-name:var(--font-inria-serif)]">
           <li>
             <Link
               href="/"

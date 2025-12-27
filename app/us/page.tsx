@@ -1,4 +1,4 @@
-import CustomShapedHoverImage from "../custom-shaped-hover-image";
+import CustomShapedHoverImage from "../components/custom-shaped-hover-image";
 import Header from "../header";
 const images = [
   {

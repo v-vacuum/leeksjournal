@@ -1,20 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inria_Serif } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inriaSerif = Inria_Serif({
+  weight: ["300", "400", "700"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-inria-serif", // CSS variable to use later
 });
 
 export const metadata: Metadata = {
   title: "vivi's journal!",
-  description: "she be eating this shit up ngl",
+  description: "she be eating this up ngl",
 };
 
 export default function RootLayout({
@@ -24,11 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${inriaSerif.variable} antialiased`}>{children}</body>
     </html>
   );
 }
