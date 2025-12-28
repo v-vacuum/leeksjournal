@@ -23,10 +23,11 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
       {/* Title - only visible in box mode */}
       {mode === "box" && (
         <h1
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-7xl font-bold text-[#265DB6] pointer-events-none z-50 select-none"
+          className="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-7xl font-bold text-[#265DB6] pointer-events-none z-50 select-none flex flex-col items-center"
           style={{ fontFamily: "'Inria Serif', serif" }}
         >
-          vivi’s memory box
+          <div>vivi’s</div>
+          <div>memory box</div>
         </h1>
       )}
 
