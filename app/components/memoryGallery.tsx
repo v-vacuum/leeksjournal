@@ -19,7 +19,7 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
   const [mode, setMode] = useState<"box" | "grid">("box"); // start in box to test easily
 
   return (
-    <div className="relative min-h-screen bg-white">
+    <div className="relative min-h-screen" style={{ backgroundColor: "#f9f9f9" }}>
       {/* Title - only visible in box mode */}
       {mode === "box" && (
         <h1
@@ -34,10 +34,12 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
       <div className="absolute top-8 left-1/2 -translate-x-1/2 z-50 flex gap-4">
         <button
           onClick={() => setMode("box")}
-          className="group relative w-12 h-12 rounded-lg transition-all hover:scale-105"
+          className="group relative w-12 h-12 rounded-lg transition-all hover:scale-[1.03]"
           style={{
             backgroundColor: mode === "box" ? "#E7E8EA" : "#F9F9F9",
             border: "1px solid #E7E8EA",
+            willChange: "transform",
+            backfaceVisibility: "hidden",
           }}
         >
           <Image
@@ -46,20 +48,31 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             width={24}
             height={24}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              imageRendering: "auto",
+              willChange: "transform",
+              backfaceVisibility: "hidden",
+            }}
           />
           <span
-            className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity text-[#265DB6] text-sm font-medium pointer-events-none"
-            style={{ fontFamily: "'Inria Serif', serif" }}
+            className="absolute -bottom-[34px] left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 ease-out text-[#265DB6] text-sm font-medium pointer-events-none rounded-lg px-3 py-1 group-hover:animate-stretch-pull"
+            style={{
+              fontFamily: "'Inria Serif', serif",
+              backgroundColor: "#f9f9f9",
+              border: "1px solid #E7E8EA",
+            }}
           >
             in the box view
           </span>
         </button>
         <button
           onClick={() => setMode("grid")}
-          className="group relative w-12 h-12 rounded-lg transition-all hover:scale-105"
+          className="group relative w-12 h-12 rounded-lg transition-all hover:scale-[1.03]"
           style={{
             backgroundColor: mode === "grid" ? "#E7E8EA" : "#F9F9F9",
             border: "1px solid #E7E8EA",
+            willChange: "transform",
+            backfaceVisibility: "hidden",
           }}
         >
           <Image
@@ -68,10 +81,19 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             width={24}
             height={24}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              imageRendering: "auto",
+              willChange: "transform",
+              backfaceVisibility: "hidden",
+            }}
           />
           <span
-            className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity text-[#265DB6] text-sm font-medium pointer-events-none"
-            style={{ fontFamily: "'Inria Serif', serif" }}
+            className="absolute -bottom-[34px] left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 ease-out text-[#265DB6] text-sm font-medium pointer-events-none rounded-lg px-3 py-1 group-hover:animate-stretch-pull"
+            style={{
+              fontFamily: "'Inria Serif', serif",
+              backgroundColor: "#f9f9f9",
+              border: "1px solid #E7E8EA",
+            }}
           >
             grid view
           </span>
