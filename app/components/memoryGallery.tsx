@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import CustomShapedHoverImage from "./custom-shaped-hover-image";
 
 interface MemoryImage {
@@ -33,25 +34,47 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
       <div className="absolute top-8 left-1/2 -translate-x-1/2 z-50 flex gap-4">
         <button
           onClick={() => setMode("box")}
-          className={`px-8 py-3 rounded-lg font-medium transition-all ${
-            mode === "box"
-              ? "bg-[#265DB6] text-white"
-              : "bg-white text-[#265DB6] border-2 border-[#265DB6]"
-          }`}
-          style={{ fontFamily: "'Inria Serif', serif" }}
+          className="group relative w-12 h-12 rounded-lg transition-all hover:scale-105"
+          style={{
+            backgroundColor: mode === "box" ? "#E7E8EA" : "#F9F9F9",
+            border: "1px solid #E7E8EA",
+          }}
         >
-          Box Mode
+          <Image
+            src="/boxMode.svg"
+            alt="Box Mode"
+            width={24}
+            height={24}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          />
+          <span
+            className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity text-[#265DB6] text-sm font-medium pointer-events-none"
+            style={{ fontFamily: "'Inria Serif', serif" }}
+          >
+            in the box view
+          </span>
         </button>
         <button
           onClick={() => setMode("grid")}
-          className={`px-8 py-3 rounded-lg font-medium transition-all ${
-            mode === "grid"
-              ? "bg-[#265DB6] text-white"
-              : "bg-white text-[#265DB6] border-2 border-[#265DB6]"
-          }`}
-          style={{ fontFamily: "'Inria Serif', serif" }}
+          className="group relative w-12 h-12 rounded-lg transition-all hover:scale-105"
+          style={{
+            backgroundColor: mode === "grid" ? "#E7E8EA" : "#F9F9F9",
+            border: "1px solid #E7E8EA",
+          }}
         >
-          Grid Mode
+          <Image
+            src="/gridMode.svg"
+            alt="Grid Mode"
+            width={24}
+            height={24}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          />
+          <span
+            className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity text-[#265DB6] text-sm font-medium pointer-events-none"
+            style={{ fontFamily: "'Inria Serif', serif" }}
+          >
+            grid view
+          </span>
         </button>
       </div>
 
@@ -61,7 +84,7 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
           {images.map((img, index) => {
             const angle = (index / images.length) * 2 * Math.PI - Math.PI / 2;
             const x = 600 * Math.cos(angle);
-            const y = 450 * Math.sin(angle);
+            const y = 300 * Math.sin(angle);
 
             return (
               <motion.div
@@ -88,8 +111,8 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
                   src={img.src}
                   hoverSrc={img.hoverSrc}
                   alt={img.alt}
-                  width={img.width}
-                  height={img.height}
+                  width={img.width ? img.width * 0.7 : undefined}
+                  height={img.height ? img.height * 0.7 : undefined}
                   defaultMaxWidth="50vw"
                   enableShapedHover={false} // no shaped hover in box mode
                 />

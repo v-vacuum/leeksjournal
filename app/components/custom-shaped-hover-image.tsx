@@ -139,7 +139,7 @@ export default function CustomShapedHoverImage({
     // No dimensions provided - use default responsive sizing
     displayWidth = undefined;
     displayHeight = undefined;
-    containerStyle = { maxWidth: defaultMaxWidth, width: "100%", aspectRatio };
+    containerStyle = { maxWidth: defaultMaxWidth, width: "100%", aspectRatio: aspectRatio ?? undefined };
     useFill = true;
   }
 
