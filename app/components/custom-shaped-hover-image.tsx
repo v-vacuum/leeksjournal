@@ -1,3 +1,4 @@
+// custom-shaped-hover-image.tsx
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
@@ -8,26 +9,34 @@ interface CustomShapedHoverImageProps {
   alt: string;
   width?: number;
   height?: number;
-  scale?: number; //eg. 1.5 = 50% bigger
-  defaultMaxWidth?: string; //global defaul, eg. 70vw
+  defaultMaxWidth?: string; //what does this even do?
+  enableShapedHover?: boolean; //a flag for when in box/grid mode
 }
 
-function CustomShapedHoverImage({
+export default function CustomShapedHoverImage({
   src,
   hoverSrc,
   alt,
   width,
   height,
-  scale = 1,
-  defaultMaxWidth = "50vw", //change this to make all images bigger or smaller by default
+  defaultMaxWidth = "10vw",
+  enableShapedHover = true, // default: enabled
 }: CustomShapedHoverImageProps) {
   const [isHovering, setIsHovering] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<number | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Load the base image into a canvas to check pixel transparency
+  // load base image for aspect ratio + transparency canvas (only if shaped hover is enabled)
   useEffect(() => {
+    if (!enableShapedHover) {
+      // still need aspect ratio for responsive mode
+      const img = new window.Image();
+      img.onload = () => setAspectRatio(img.naturalWidth / img.naturalHeight);
+      img.src = src;
+      return;
+    }
+
     const img = new window.Image();
     img.onload = () => {
       setAspectRatio(img.naturalWidth / img.naturalHeight);
@@ -42,11 +51,17 @@ function CustomShapedHoverImage({
       }
     };
     img.src = src;
-  }, [src]);
+  }, [src, enableShapedHover]);
 
-  // Handle mouse movement to detect hover over non-transparent areas
+  // only set up shaped hover detection if enabled
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!canvasRef.current || !containerRef.current || !aspectRatio) return;
+    if (
+      !enableShapedHover ||
+      !canvasRef.current ||
+      !containerRef.current ||
+      !aspectRatio
+    )
+      return;
 
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -67,48 +82,28 @@ function CustomShapedHoverImage({
       const ctx = canvasRef.current.getContext("2d");
       if (ctx) {
         const pixelData = ctx.getImageData(pixelX, pixelY, 1, 1).data;
-        setIsHovering(pixelData[3] > 20);
+        setIsHovering(pixelData[3] > 30);
       }
-    } else {
-      setIsHovering(false);
     }
   };
 
-  //   // Use offsetX and offsetY for accurate coordinates relative to the container
-  //   const { offsetX, offsetY } = e.nativeEvent;
-  //   const x = offsetX;
-  //   const y = offsetY;
-
-  //   // Get the natural dimensions of the canvas (image)
-  //   const naturalWidth = canvasRef.current.width;
-  //   const naturalHeight = canvasRef.current.height;
-
-  //   // Scale the mouse coordinates to match the natural image size
-  //   const pixelX = Math.floor((x / width) * naturalWidth);
-  //   const pixelY = Math.floor((y / height) * naturalHeight);
-
-  //   // Check if the pixel is within bounds and non-transparent
-  //   if (
-  //     pixelX >= 0 &&
-  //     pixelX < naturalWidth &&
-  //     pixelY >= 0 &&
-  //     pixelY < naturalHeight
-  //   ) {
-  //     const ctx = canvasRef.current.getContext("2d");
-  //     if (ctx) {
-  //       const pixelData = ctx.getImageData(pixelX, pixelY, 1, 1).data;
-  //       const alpha = pixelData[3]; // Alpha value (0 = transparent, 255 = opaque)
-  //       setIsHovering(alpha > 0);
-  //     }
-  //   } else {
-  //     setIsHovering(false);
-  //   }
-  // };
-
   const handleMouseLeave = () => setIsHovering(false);
 
-  //loading placeholder
-  if (!aspectRatio) {
+  // force normal image only if shaped hover is disabled
+  const effectiveIsHovering = enableShapedHover ? isHovering : false;
+
+  // Determine sizing logic:
+  // - If both width and height: use both
+  // - If only width: calculate height from aspect ratio
+  // - If only height: calculate width from aspect ratio
+  // - If neither: use default responsive sizing
+  const hasBothDimensions = width && height;
+  const hasOnlyWidth = width && !height;
+  const hasOnlyHeight = height && !width;
+  const hasNoDimensions = !width && !height;
+
+  // If we need aspect ratio but don't have it yet, show loading state
+  if ((hasOnlyWidth || hasOnlyHeight || hasNoDimensions) && !aspectRatio) {
     return (
       <div
         className="bg-gray-200 rounded-xl animate-pulse"
@@ -117,19 +112,42 @@ function CustomShapedHoverImage({
     );
   }
 
-  const hasFixedSize = width && height;
-  const displayWidth = hasFixedSize ? Math.round(width * scale) : undefined;
-  const displayHeight = hasFixedSize ? Math.round(height * scale) : undefined;
+  let displayWidth: number | undefined;
+  let displayHeight: number | undefined;
+  let containerStyle: React.CSSProperties;
+  let useFill = false;
 
-  const containerStyle = hasFixedSize
-    ? { width: displayWidth, height: displayHeight }
-    : { maxWidth: defaultMaxWidth, width: "100%", aspectRatio };
+  if (hasBothDimensions) {
+    // Use both dimensions directly
+    displayWidth = width;
+    displayHeight = height;
+    containerStyle = { width: displayWidth, height: displayHeight };
+    useFill = false;
+  } else if (hasOnlyWidth && aspectRatio) {
+    // Calculate height from width and aspect ratio
+    displayWidth = width;
+    displayHeight = Math.round(width / aspectRatio);
+    containerStyle = { width: displayWidth, height: displayHeight };
+    useFill = false;
+  } else if (hasOnlyHeight && aspectRatio) {
+    // Calculate width from height and aspect ratio
+    displayHeight = height;
+    displayWidth = Math.round(height * aspectRatio);
+    containerStyle = { width: displayWidth, height: displayHeight };
+    useFill = false;
+  } else {
+    // No dimensions provided - use default responsive sizing
+    displayWidth = undefined;
+    displayHeight = undefined;
+    containerStyle = { maxWidth: defaultMaxWidth, width: "100%", aspectRatio };
+    useFill = true;
+  }
 
   return (
     <div
       ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={enableShapedHover ? handleMouseMove : undefined}
+      onMouseLeave={enableShapedHover ? handleMouseLeave : undefined}
       style={{
         position: "relative",
         ...containerStyle,
@@ -143,42 +161,42 @@ function CustomShapedHoverImage({
         alt={alt}
         width={displayWidth}
         height={displayHeight}
-        fill={!hasFixedSize}
+        fill={useFill}
         sizes={
-          !hasFixedSize
+          useFill
             ? `(max-width: 768px) 90vw, ${defaultMaxWidth}`
             : undefined
         }
         style={{
           objectFit: "contain",
-          transition: "opacity 0.4s ease", // ← smooth fade
-          opacity: isHovering ? 0 : 1,
+          transition: "opacity 0.4s ease",
+          opacity: effectiveIsHovering ? 0 : 1,
         }}
         className="pointer-events-none"
       />
-      {/* Hover Image */}
+
+      {/* Hover Image - only visible if shaped hover is enabled */}
       <Image
         src={hoverSrc}
         alt={`${alt} (hover)`}
         width={displayWidth}
         height={displayHeight}
-        fill={!hasFixedSize}
+        fill={useFill}
         sizes={
-          !hasFixedSize
+          useFill
             ? `(max-width: 768px) 90vw, ${defaultMaxWidth}`
             : undefined
         }
         style={{
           objectFit: "contain",
-          transition: "opacity 0.3s ease", // smooth fade
-          opacity: isHovering ? 1 : 0,
+          transition: "opacity 0.4s ease",
+          opacity: effectiveIsHovering ? 1 : 0,
           position: "absolute",
           top: 0,
           left: 0,
           pointerEvents: "none",
         }}
-      />{" "}
+      />
     </div>
   );
 }
-export default CustomShapedHoverImage;

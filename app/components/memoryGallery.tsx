@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import CustomShapedHoverImage from "./custom-shaped-hover-image";
-import { images } from "../data/images";
+
 interface MemoryImage {
   id: number;
   src: string;
@@ -12,18 +12,17 @@ interface MemoryImage {
   alt: string;
   width?: number;
   height?: number;
-  scale?: number;
 }
 
 export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
-  const [mode, setMode] = useState<"box" | "grid">("box");
+  const [mode, setMode] = useState<"box" | "grid">("box"); // start in box to test easily
 
   return (
     <div className="relative min-h-screen bg-white">
-      {/* Title in the center (only visible in box mode) */}
+      {/* Title - only visible in box mode */}
       {mode === "box" && (
         <h1
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-7xl font-bold text-[#265DB6] pointer-events-none z-10"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-7xl font-bold text-[#265DB6] pointer-events-none z-50 select-none"
           style={{ fontFamily: "'Inria Serif', serif" }}
         >
           vivi’s memory box
@@ -31,7 +30,7 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
       )}
 
       {/* Mode Toggle Buttons */}
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20 flex gap-4">
+      <div className="absolute top-8 left-1/2 -translate-x-1/2 z-50 flex gap-4">
         <button
           onClick={() => setMode("box")}
           className={`px-8 py-3 rounded-lg font-medium transition-all ${
@@ -56,55 +55,76 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
         </button>
       </div>
 
-      {/* Images Container */}
-      <div
-        className={
-          mode === "grid"
-            ? "pt-32 px-8" // padding to make room for buttons/title
-            : "relative w-full h-screen"
-        }
-        style={
-          mode === "grid"
-            ? {
-                display: "flex",
-                flexWrap: "wrap",
-                columnGap: "24px",
-                rowGap: "150px", // spacing between images
-                justifyContent: "center",
-                alignContent: "flex-start",
-              }
-            : undefined
-        }
-      >
-        {images.map((img, index) => {
-          // Calculate position in the ring
-          const angle = (index / images.length) * 2 * Math.PI - Math.PI / 2; // Start from top
-          const x = 600 * Math.cos(angle);
-          const y = 400 * Math.sin(angle);
+      {/* === BOX MODE: Dedicated full-screen container === */}
+      {mode === "box" && (
+        <div className="fixed inset-0 pointer-events-none">
+          {images.map((img, index) => {
+            const angle = (index / images.length) * 2 * Math.PI - Math.PI / 2;
+            const x = 600 * Math.cos(angle);
+            const y = 450 * Math.sin(angle);
 
-          return (
+            return (
+              <motion.div
+                key={img.id}
+                layout
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 35,
+                }}
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  top: "50%",
+                  x: `${x}px`,
+                  y: `${y}px`,
+                  translateX: "-50%",
+                  translateY: "-50%",
+                }}
+                whileHover={{ rotate: 8 }}
+                className="pointer-events-auto" // allow hover on images
+              >
+                <CustomShapedHoverImage
+                  src={img.src}
+                  hoverSrc={img.hoverSrc}
+                  alt={img.alt}
+                  width={img.width}
+                  height={img.height}
+                  defaultMaxWidth="50vw"
+                  enableShapedHover={false} // no shaped hover in box mode
+                />
+              </motion.div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* === GRID MODE: Flex-wrap gallery === */}
+      {mode === "grid" && (
+        <div
+          className="pt-32 px-8"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            alignContent: "flex-start",
+            columnGap: "60px",
+            rowGap: "80px",
+          }}
+        >
+          {images.map((img) => (
             <motion.div
               key={img.id}
-              layout // This magic prop enables smooth animation between layouts
+              layout
               transition={{
                 type: "spring",
                 stiffness: 300,
                 damping: 35,
               }}
-              style={
-                mode === "box"
-                  ? {
-                      position: "absolute",
-                      left: "50%",
-                      top: "50%",
-                      x: `${x}px`,
-                      y: `${y}px`,
-                      translateX: "-50%",
-                      translateY: "-50%",
-                    }
-                  : { position: "static", transform: "none" }
-              }
-              whileHover={mode === "box" ? { rotate: 10 } : {}}
+              style={{
+                position: "static",
+                transform: "none",
+              }}
               className="cursor-pointer"
             >
               <CustomShapedHoverImage
@@ -113,13 +133,13 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
                 alt={img.alt}
                 width={img.width}
                 height={img.height}
-                scale={img.scale ?? 1}
-                defaultMaxWidth="60vw"
+                defaultMaxWidth="420px"
+                enableShapedHover={true} // full shaped hover in grid mode
               />
             </motion.div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
