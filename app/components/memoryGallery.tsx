@@ -23,11 +23,12 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
       {/* Title - only visible in box mode */}
       {mode === "box" && (
         <h1
-          className="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-7xl font-bold text-[#265DB6] pointer-events-none z-50 select-none flex flex-col items-center"
+          className="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 
+          text-6xl md:text-7xl font-bold text-[#265DB6] pointer-events-none z-50 select-none flex flex-col items-center"
           style={{ fontFamily: "'Inria Serif', serif" }}
         >
           <div>vivi’s</div>
-          <div>memory box</div>
+          <div className="text-center">memory box</div>
         </h1>
       )}
 
@@ -56,7 +57,9 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             }}
           />
           <span
-            className="absolute -bottom-[34px] left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 ease-out text-[#265DB6] text-sm font-medium pointer-events-none rounded-lg px-3 py-1 group-hover:animate-stretch-pull"
+            className="absolute -bottom-[34px] left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 
+            group-hover:opacity-100 transition-all duration-200 ease-out text-[#265DB6] text-sm 
+            font-medium pointer-events-none rounded-lg px-3 py-1 group-hover:animate-stretch-pull"
             style={{
               fontFamily: "'Inria Serif', serif",
               backgroundColor: "#f9f9f9",
@@ -89,7 +92,9 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             }}
           />
           <span
-            className="absolute -bottom-[34px] left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 ease-out text-[#265DB6] text-sm font-medium pointer-events-none rounded-lg px-3 py-1 group-hover:animate-stretch-pull"
+            className="absolute -bottom-[34px] left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 
+            group-hover:opacity-100 transition-all duration-200 ease-out text-[#265DB6] text-sm font-medium 
+            pointer-events-none rounded-lg px-3 py-1 group-hover:animate-stretch-pull"
             style={{
               fontFamily: "'Inria Serif', serif",
               backgroundColor: "#f9f9f9",
