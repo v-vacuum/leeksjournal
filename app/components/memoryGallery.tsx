@@ -30,23 +30,27 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
         if (!container) return;
 
         const items = container.querySelectorAll('[data-grid-item]');
-        const viewportCenterX = window.innerWidth / 2;
-        const viewportCenterY = window.innerHeight / 2;
+        const containerRect = container.getBoundingClientRect();
+        const containerScrollTop = container.scrollTop || window.scrollY;
         const positions: { x: number; y: number }[] = [];
 
         items.forEach((item) => {
           const rect = item.getBoundingClientRect();
-          const itemCenterX = rect.left + rect.width / 2;
-          const itemCenterY = rect.top + rect.height / 2;
+          const itemCenterX = rect.left + rect.width / 2 - containerRect.left;
+          const itemCenterY = rect.top + rect.height / 2 - containerRect.top + containerScrollTop;
+          
+          // Calculate position relative to viewport center (where images start)
+          const viewportCenterX = window.innerWidth / 2;
+          const viewportCenterY = window.innerHeight / 2;
           
           positions.push({
-            x: itemCenterX - viewportCenterX,
-            y: itemCenterY - viewportCenterY,
+            x: rect.left + rect.width / 2 - viewportCenterX,
+            y: rect.top + rect.height / 2 - viewportCenterY,
           });
         });
 
         setGridPositions(positions);
-      }, 50);
+      }, 100);
 
       return () => clearTimeout(timer);
     }
@@ -190,8 +194,7 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
           {/* Invisible grid for position measurement */}
           <div 
             ref={gridContainerRef}
-            className="pt-32 px-8 flex flex-wrap justify-center gap-x-[60px] gap-y-[80px] pointer-events-none opacity-0"
-            style={{ position: "absolute", top: 0, left: 0, right: 0 }}
+            className="pt-32 px-8 flex flex-wrap justify-center gap-x-[60px] gap-y-[80px] pointer-events-none opacity-0 absolute top-0 left-0 right-0"
           >
             {images.map((img) => (
               <div key={`measure-${img.id}`} data-grid-item>
@@ -208,42 +211,46 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             ))}
           </div>
 
-          {/* Animated images */}
-          <div className="fixed inset-0">
-            {images.map((img, i) => {
-              const finalX = transitioning || !gridPositions[i] ? 0 : gridPositions[i].x;
-              const finalY = transitioning || !gridPositions[i] ? 0 : gridPositions[i].y;
+          {/* Scrollable grid container */}
+          <div className="pt-32 px-8 pb-32">
+            <div className="flex flex-wrap justify-center gap-x-[60px] gap-y-[80px]">
+              {images.map((img, i) => {
+                const finalX = transitioning || !gridPositions[i] ? 0 : gridPositions[i].x;
+                const finalY = transitioning || !gridPositions[i] ? 0 : gridPositions[i].y;
+                const hasAnimated = !transitioning && gridPositions[i];
 
-              return (
-                <motion.div
-                  key={img.id}
-                  animate={{ x: finalX, y: finalY }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 150,
-                    damping: 20,
-                  }}
-                  style={{
-                    position: "absolute",
-                    left: "50%",
-                    top: "50%",
-                    translateX: "-50%",
-                    translateY: "-50%",
-                  }}
-                  className="cursor-pointer"
-                >
-                  <CustomShapedHoverImage
-                    src={img.src}
-                    hoverSrc={img.hoverSrc}
-                    alt={img.alt}
-                    width={img.width}
-                    height={img.height}
-                    defaultMaxWidth="420px"
-                    enableShapedHover={!transitioning}
-                  />
-                </motion.div>
-              );
-            })}
+                return (
+                  <motion.div
+                    key={img.id}
+                    initial={false}
+                    animate={hasAnimated ? { x: 0, y: 0 } : { x: finalX, y: finalY }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 150,
+                      damping: 20,
+                    }}
+                    style={{
+                      position: hasAnimated ? "static" : "absolute",
+                      left: hasAnimated ? "auto" : "50%",
+                      top: hasAnimated ? "auto" : "50%",
+                      translateX: hasAnimated ? "none" : "-50%",
+                      translateY: hasAnimated ? "none" : "-50%",
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <CustomShapedHoverImage
+                      src={img.src}
+                      hoverSrc={img.hoverSrc}
+                      alt={img.alt}
+                      width={img.width}
+                      height={img.height}
+                      defaultMaxWidth="420px"
+                      enableShapedHover={!transitioning}
+                    />
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         </>
       )}
