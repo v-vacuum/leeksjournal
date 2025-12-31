@@ -188,16 +188,20 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
         </div>
       )}
 
-      {/* Grid Mode */}
-      {mode === "grid" && (
-        <>
-          {/* Invisible grid for position measurement */}
-          <div 
-            ref={gridContainerRef}
-            className="pt-32 px-8 flex flex-wrap justify-center gap-x-[60px] gap-y-[80px] pointer-events-none opacity-0 absolute top-0 left-0 right-0"
-          >
-            {images.map((img) => (
-              <div key={`measure-${img.id}`} data-grid-item>
+{/* Grid Mode */}
+{mode === "grid" && (
+        <div className="pt-32 px-8 pb-32">
+          <div className="flex flex-wrap justify-center gap-x-[60px] gap-y-[80px]">
+            {images.map((img, i) => (
+              <motion.div
+                key={img.id}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  type: "spring",
+                }}
+                className="cursor-pointer"
+              >
                 <CustomShapedHoverImage
                   src={img.src}
                   hoverSrc={img.hoverSrc}
@@ -205,55 +209,12 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
                   width={img.width}
                   height={img.height}
                   defaultMaxWidth="420px"
-                  enableShapedHover={false}
+                  enableShapedHover={!transitioning}
                 />
-              </div>
+              </motion.div>
             ))}
           </div>
-
-          {/* Scrollable grid container */}
-          <div className="pt-32 px-8 pb-32">
-            <div className="flex flex-wrap justify-center gap-x-[60px] gap-y-[80px]">
-              {images.map((img, i) => {
-                const finalX = transitioning || !gridPositions[i] ? 0 : gridPositions[i].x;
-                const finalY = transitioning || !gridPositions[i] ? 0 : gridPositions[i].y;
-                const hasAnimated = !transitioning && gridPositions[i];
-
-                return (
-                  <motion.div
-                    key={img.id}
-                    initial={false}
-                    animate={hasAnimated ? { x: 0, y: 0 } : { x: finalX, y: finalY }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 150,
-                      damping: 20,
-                    }}
-                    style={{
-                      position: hasAnimated ? "static" : "absolute",
-                      left: hasAnimated ? "auto" : "50%",
-                      top: hasAnimated ? "auto" : "50%",
-                      translateX: hasAnimated ? "none" : "-50%",
-                      translateY: hasAnimated ? "none" : "-50%",
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <CustomShapedHoverImage
-                      src={img.src}
-                      hoverSrc={img.hoverSrc}
-                      alt={img.alt}
-                      width={img.width}
-                      height={img.height}
-                      defaultMaxWidth="420px"
-                      enableShapedHover={!transitioning}
-                    />
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </>
-      )}
-    </div>
+        </div>
+      )}      </div>
   );
 }
