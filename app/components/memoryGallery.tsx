@@ -88,7 +88,7 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
       >      <button
           onClick={() => handleModeSwitch("box")}
           disabled={transitioning}
-          className="group relative w-12 h-12 rounded-lg transition-transform hover:scale-105 disabled:opacity-50"
+          className="absolute group relative w-12 h-12 rounded-lg transition-transform hover:scale-105 disabled:opacity-50"
           style={{
             backgroundColor: mode === "box" ? "#E7E8EA" : "#F9F9F9",
             border: "1.5px solid #E7E8EA",
@@ -154,11 +154,17 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             const angle = (i / images.length) * 2 * Math.PI - Math.PI / 2;
             const finalX = transitioning ? 0 : 600 * Math.cos(angle);
             const finalY = transitioning ? 0 : 300 * Math.sin(angle);
+            // Generate random rotation between -15 and 15 degrees
+            const randomRotation = Math.random() * 30 - 15;
 
             return (
               <motion.div
                 key={img.id}
-                animate={{ x: finalX, y: finalY }}
+                animate={{ 
+                  x: finalX, 
+                  y: finalY,
+                  rotate: transitioning ? 0 : randomRotation
+                }}
                 transition={{
                   type: "spring",
                   stiffness: 150,
