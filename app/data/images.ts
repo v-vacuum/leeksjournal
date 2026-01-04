@@ -1,6 +1,6 @@
 export const images = [
   {
-    id: 3,
+    id: 1,
     src: "/pages.png",
     hoverSrc: "/pages-hover.png",
     alt: "pages bookmark",
@@ -8,28 +8,28 @@ export const images = [
     height: 550,
   },
   {
-    id: 4,
+    id: 2,
     src: "/lego-gengar.png",
     hoverSrc: "/lego-gengar-hover.png",
     alt: "lego genger",
     height: 600,
   },
   {
-    id: 6,
+    id: 3,
     src: "/shark.png",
     hoverSrc: "/shark-hover.png",
     alt: "shark",
     width: 500,
   },
   {
-    id: 5,
+    id: 4,
     src: "/photo-strip.png",
     hoverSrc: "/photo-strip-hover.png",
     alt: "photo strip",
     width: 200,
   },
   {
-    id: 1,
+    id: 5,
     src: "/warhammer.png",
     hoverSrc: "/warhammer-hover.png",
     alt: "warhammer receipt",
@@ -37,7 +37,7 @@ export const images = [
   },
 
   {
-    id: 2,
+    id: 6,
     src: "/suki-car.png",
     hoverSrc: "/suki-car-hover.png",
     alt: "suki's cunty car",
@@ -53,7 +53,7 @@ export const images = [
     height: 550,
   },
   {
-    id: 10,
+    id: 8,
     src: "/shots.png",
     hoverSrc: "/shots-hover.png",
     alt: "german shots",
@@ -61,14 +61,14 @@ export const images = [
     height: 550,
   },
   {
-    id: 8,
+    id: 9,
     src: "/cindy-kitty.png",
     hoverSrc: "/cindy-kitty-hover.png",
     alt: "cindy's hello kitty haiku",
     width: 600,
   },
   {
-    id: 9,
+    id: 10,
     src: "/matt-kitty.png",
     hoverSrc: "/matt-kitty-hover.png",
     alt: "matt's hello kitty haiku",
