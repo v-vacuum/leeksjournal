@@ -1,5 +1,3 @@
-import CustomShapedHoverImage from "./components/custom-shaped-hover-image";
-import Header from "./header";
 import MemoryGallery from "./components/memoryGallery";
 import { images } from "./data/images";
 

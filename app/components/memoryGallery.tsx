@@ -19,7 +19,6 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
   const [mode, setMode] = useState<"box" | "grid">("box");
   const [transitioning, setTransitioning] = useState(false);
   const gridContainerRef = useRef<HTMLDivElement>(null);
-  const [gridPositions, setGridPositions] = useState<{ x: number; y: number }[]>([]);
 
   // Measure grid positions when in grid mode
   useEffect(() => {
@@ -30,14 +29,10 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
         if (!container) return;
 
         const items = container.querySelectorAll('[data-grid-item]');
-        const containerRect = container.getBoundingClientRect();
-        const containerScrollTop = container.scrollTop || window.scrollY;
         const positions: { x: number; y: number }[] = [];
 
         items.forEach((item) => {
           const rect = item.getBoundingClientRect();
-          const itemCenterX = rect.left + rect.width / 2 - containerRect.left;
-          const itemCenterY = rect.top + rect.height / 2 - containerRect.top + containerScrollTop;
           
           // Calculate position relative to viewport center (where images start)
           const viewportCenterX = window.innerWidth / 2;
@@ -49,7 +44,6 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
           });
         });
 
-        setGridPositions(positions);
       }, 100);
 
       return () => clearTimeout(timer);
@@ -75,16 +69,16 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.4 }}
           className="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 
-          text-6xl md:text-7xl font-bold text-[#265DB6] pointer-events-none z-50 select-none text-center"
+          text-6xl md:text-6xl font-bold text-[#265DB6] pointer-events-none z-50 select-none text-center"
           style={{ fontFamily: "'Inria Serif', serif" }}
         >
-          <div>vivi's</div>
+          <div>vivi&apos;s</div>
           <div>memory box</div>
         </motion.h1>
       )}
 
       {/* Toggle Buttons */}
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 z-50 flex gap-4">
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 z-50 flex gap-4">
         <button
           onClick={() => handleModeSwitch("box")}
           disabled={transitioning}
@@ -187,22 +181,26 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
           })}
         </div>
       )}
-
 {/* Grid Mode */}
 {mode === "grid" && (
         <div className="pt-32 px-8 pb-32">
           <div className="flex flex-wrap justify-center gap-x-[60px] gap-y-[80px]">
-            {images.map((img, i) => (
+            {images.map((img, index) => (
               <motion.div
-                key={img.id}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{
-                  type: "spring",
-                }}
-                className="cursor-pointer"
-              >
-                <CustomShapedHoverImage
+              key={img.id}
+              initial={{ opacity: 0, scale: 0.92}}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: 0.4,
+                delay: index * 0.04,
+                type: "spring",
+                stiffness: 260,
+                damping: 20
+
+              }}
+              className="cursor-pointer"
+            >
+          <CustomShapedHoverImage
                   src={img.src}
                   hoverSrc={img.hoverSrc}
                   alt={img.alt}

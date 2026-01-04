@@ -38,7 +38,7 @@ export default function LoadingScreen({ onLoaded }: { onLoaded: () => void }) {
         color: "#265DB6",
       }}
     >
-      <h1>vivi's looking for the right box</h1>
+      <h1>vivi&apos;s looking for the right box</h1>
       <p style={{ fontSize: "4rem", marginTop: "1rem" }}>{dots}</p>
     </motion.div>
   );
