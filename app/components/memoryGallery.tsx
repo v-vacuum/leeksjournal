@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import CustomShapedHoverImage from "./custom-shaped-hover-image";
 
@@ -31,30 +31,60 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
 
   return (
     <div className="relative min-h-screen bg-[#f9f9f9]">
-      {/* Title */}
-      {mode === "box" && !transitioning && (
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.4 }}
-          className="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 
-          text-6xl md:text-6xl font-bold text-[#265DB6] pointer-events-none z-50 select-none text-center"
-          style={{ fontFamily: "'Inria Serif', serif" }}
-        >
-          <div>vivi&apos;s</div>
-          <div>memory box</div>
-        </motion.h1>
-      )}
+{/* Title */}
+<AnimatePresence mode="wait">
+        {!transitioning && mode === "box" && (
+          <motion.h1
+            key="box-title"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ 
+              duration: 0.2
+            }}
+            className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 
+            text-6xl md:text-6xl font-bold text-[#265DB6] pointer-events-none z-50 select-none text-center"
+            style={{ 
+              fontFamily: "'Inria Serif', serif",
+              top: '48%'
+            }}
+          >
+            <div>vivi&apos;s</div>
+            <div>memory box</div>
+          </motion.h1>
+        )}
+
+        {!transitioning && mode === "grid" && (
+          <motion.h1
+            key="grid-title"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ 
+              duration: 0.2
+            }}
+            className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 
+            text-6xl md:text-6xl font-bold text-[#265DB6] pointer-events-none z-50 select-none text-center"
+            style={{ 
+              fontFamily: "'Inria Serif', serif",
+              top: '65px'
+            }}
+          >
+            <div>vivi&apos;s memory box</div>
+          </motion.h1>
+        )}
+      </AnimatePresence>
+
 
       {/* Toggle Buttons */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 z-50 flex gap-4">
+      <div className="absolute top-[110px] left-1/2 -translate-x-1/2 z-50 flex gap-4">
         <button
           onClick={() => handleModeSwitch("box")}
           disabled={transitioning}
           className="group relative w-12 h-12 rounded-lg transition-transform hover:scale-105 disabled:opacity-50"
           style={{
             backgroundColor: mode === "box" ? "#E7E8EA" : "#F9F9F9",
-            border: "1px solid #E7E8EA",
+            border: "1.5px solid #E7E8EA",
           }}
         >
           <Image
@@ -152,7 +182,7 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
       )}
 {/* Grid Mode */}
 {mode === "grid" && (
-        <div className="pt-32 px-8 pb-32">
+        <div className="pt-[200px] px-8 pb-32">
           <div className="flex flex-wrap justify-center gap-x-[60px] gap-y-[80px]">
             {images.map((img, index) => (
               <motion.div
