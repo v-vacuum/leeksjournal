@@ -1,19 +1,5 @@
 export const images = [
   {
-    id: 6,
-    src: "/shark.png",
-    hoverSrc: "/shark-hover.png",
-    alt: "shark",
-    width: 500,
-  },
-  {
-    id: 5,
-    src: "/photo-strip.png",
-    hoverSrc: "/photo-strip-hover.png",
-    alt: "photo strip",
-    width: 200,
-  },
-  {
     id: 3,
     src: "/pages.png",
     hoverSrc: "/pages-hover.png",
@@ -29,12 +15,18 @@ export const images = [
     height: 600,
   },
   {
-    id: 2,
-    src: "/suki-car.png",
-    hoverSrc: "/suki-car-hover.png",
-    alt: "suki's cunty car",
-    width: 550,
-    height: 500,
+    id: 6,
+    src: "/shark.png",
+    hoverSrc: "/shark-hover.png",
+    alt: "shark",
+    width: 500,
+  },
+  {
+    id: 5,
+    src: "/photo-strip.png",
+    hoverSrc: "/photo-strip-hover.png",
+    alt: "photo strip",
+    width: 200,
   },
   {
     id: 1,
@@ -42,6 +34,15 @@ export const images = [
     hoverSrc: "/warhammer-hover.png",
     alt: "warhammer receipt",
     width: 200,
+  },
+
+  {
+    id: 2,
+    src: "/suki-car.png",
+    hoverSrc: "/suki-car-hover.png",
+    alt: "suki's cunty car",
+    width: 550,
+    height: 500,
   },
   {
     id: 7,

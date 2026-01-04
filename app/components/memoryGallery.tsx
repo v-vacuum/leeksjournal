@@ -63,8 +63,8 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             transition={{ 
               duration: 0.2
             }}
-            className="-translate-x-1 -translate-y-1/2 
-            text-6xl md:text-6xl font-bold text-[#265DB6] pointer-events-none z-40 select-none text-center sticky"
+            className="-translate-x-1 -translate-y-1 
+            text-5xl md:text-5xl font-bold text-[#265DB6] pointer-events-none z-40 select-none text-center sticky"
             style={{ 
               fontFamily: "'Inria Serif', serif",
               top: '65px'
@@ -154,7 +154,7 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             const finalX = transitioning ? 0 : 600 * Math.cos(angle);
             const finalY = transitioning ? 0 : 300 * Math.sin(angle);
             // Generate random rotation between -15 and 15 degrees
-            const randomRotation = Math.random() * 30 - 15;
+            const randomRotation = Math.random() * 60 - 30;
 
             return (
               <motion.div
