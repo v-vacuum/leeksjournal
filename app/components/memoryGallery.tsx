@@ -63,8 +63,8 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             transition={{ 
               duration: 0.2
             }}
-            className="absolute left-1/2 -translate-x-1 -translate-y-1/2 
-            text-6xl md:text-6xl font-bold text-[#265DB6] pointer-events-none z-50 select-none text-center sticky"
+            className="-translate-x-1 -translate-y-1/2 
+            text-6xl md:text-6xl font-bold text-[#265DB6] pointer-events-none z-40 select-none text-center sticky"
             style={{ 
               fontFamily: "'Inria Serif', serif",
               top: '65px'
@@ -78,75 +78,74 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
 
 {/* Toggle Buttons */}
 <div 
-        className="flex gap-4 z-50"
+        className="sticky z-50 flex justify-center"
         style={{
-          position: "fixed",
-          top: "130px",
-          left: "50%",
-          transform: "translateX(-50%)"
+          top: "130px"
         }}
-      >      <button
-          onClick={() => handleModeSwitch("box")}
-          disabled={transitioning}
-          className="absolute group relative w-12 h-12 rounded-lg transition-transform hover:scale-105 disabled:opacity-50"
-          style={{
-            backgroundColor: mode === "box" ? "#E7E8EA" : "#F9F9F9",
-            border: "1.5px solid #E7E8EA",
-          }}
-        >
-          <Image
-            src="/boxMode.svg"
-            alt="Box Mode"
-            width={24}
-            height={24}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          />
-          <span
-            className="absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 
-            group-hover:opacity-100 transition-opacity text-[#265DB6] text-sm font-medium 
-            pointer-events-none px-3 py-1"
+      >
+        <div className="flex gap-4">
+          <button
+            onClick={() => handleModeSwitch("box")}
+            disabled={transitioning}
+            className="group relative w-12 h-12 rounded-lg transition-transform hover:scale-105 disabled:opacity-50"
             style={{
-              fontFamily: "'Inria Serif', serif",
-              backgroundColor: "#f9f9f9",
-              border: "1px solid #E7E8EA",
-              borderRadius: "8px",
+              backgroundColor: mode === "box" ? "#E7E8EA" : "#F9F9F9",
+              border: "1.5px solid #E7E8EA",
             }}
           >
-            in the box view
-          </span>
-        </button>
-        <button
-          onClick={() => handleModeSwitch("grid")}
-          disabled={transitioning}
-          className="group relative w-12 h-12 rounded-lg transition-transform hover:scale-105 disabled:opacity-50"
-          style={{
-            backgroundColor: mode === "grid" ? "#E7E8EA" : "#F9F9F9",
-            border: "1px solid #E7E8EA",
-          }}
-        >
-          <Image
-            src="/gridMode.svg"
-            alt="Grid Mode"
-            width={24}
-            height={24}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          />
-          <span
-            className="absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 
-            group-hover:opacity-100 transition-opacity text-[#265DB6] text-sm font-medium 
-            pointer-events-none px-3 py-1"
+            <Image
+              src="/boxMode.svg"
+              alt="Box Mode"
+              width={24}
+              height={24}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            />
+            <span
+              className="absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 
+              group-hover:opacity-100 transition-opacity text-[#265DB6] text-sm font-medium 
+              pointer-events-none px-3 py-1"
+              style={{
+                fontFamily: "'Inria Serif', serif",
+                backgroundColor: "#f9f9f9",
+                border: "1px solid #E7E8EA",
+                borderRadius: "8px",
+              }}
+            >
+              in the box view
+            </span>
+          </button>
+          <button
+            onClick={() => handleModeSwitch("grid")}
+            disabled={transitioning}
+            className="group relative w-12 h-12 rounded-lg transition-transform hover:scale-105 disabled:opacity-50"
             style={{
-              fontFamily: "'Inria Serif', serif",
-              backgroundColor: "#f9f9f9",
+              backgroundColor: mode === "grid" ? "#E7E8EA" : "#F9F9F9",
               border: "1px solid #E7E8EA",
-              borderRadius: "8px",
             }}
           >
-            grid view
-          </span>
-        </button>
+            <Image
+              src="/gridMode.svg"
+              alt="Grid Mode"
+              width={24}
+              height={24}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            />
+            <span
+              className="absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 
+              group-hover:opacity-100 transition-opacity text-[#265DB6] text-sm font-medium 
+              pointer-events-none px-3 py-1"
+              style={{
+                fontFamily: "'Inria Serif', serif",
+                backgroundColor: "#f9f9f9",
+                border: "1px solid #E7E8EA",
+                borderRadius: "8px",
+              }}
+            >
+              grid view
+            </span>
+          </button>
+        </div>
       </div>
-
       {/* Box Mode */}
       {mode === "box" && (
         <div className="fixed inset-0">
@@ -195,7 +194,7 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
       )}
 {/* Grid Mode */}
 {mode === "grid" && (
-        <div className="pt-[150px] px-8 pb-32">
+        <div className="pt-[120px] px-8 pb-32">
           <div className="flex flex-wrap justify-center gap-x-[60px] gap-y-[80px]">
             {images.map((img, index) => (
               <motion.div
