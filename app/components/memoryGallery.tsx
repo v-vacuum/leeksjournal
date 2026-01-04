@@ -63,8 +63,8 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             transition={{ 
               duration: 0.2
             }}
-            className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 
-            text-6xl md:text-6xl font-bold text-[#265DB6] pointer-events-none z-50 select-none text-center"
+            className="absolute left-1/2 -translate-x-1 -translate-y-1/2 
+            text-6xl md:text-6xl font-bold text-[#265DB6] pointer-events-none z-50 select-none text-center sticky"
             style={{ 
               fontFamily: "'Inria Serif', serif",
               top: '65px'
@@ -76,9 +76,16 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
       </AnimatePresence>
 
 
-      {/* Toggle Buttons */}
-      <div className="absolute top-[110px] left-1/2 -translate-x-1/2 z-50 flex gap-4">
-        <button
+{/* Toggle Buttons */}
+<div 
+        className="flex gap-4 z-50"
+        style={{
+          position: "fixed",
+          top: "130px",
+          left: "50%",
+          transform: "translateX(-50%)"
+        }}
+      >      <button
           onClick={() => handleModeSwitch("box")}
           disabled={transitioning}
           className="group relative w-12 h-12 rounded-lg transition-transform hover:scale-105 disabled:opacity-50"
@@ -182,7 +189,7 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
       )}
 {/* Grid Mode */}
 {mode === "grid" && (
-        <div className="pt-[200px] px-8 pb-32">
+        <div className="pt-[150px] px-8 pb-32">
           <div className="flex flex-wrap justify-center gap-x-[60px] gap-y-[80px]">
             {images.map((img, index) => (
               <motion.div
