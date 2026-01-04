@@ -18,37 +18,6 @@ interface MemoryImage {
 export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
   const [mode, setMode] = useState<"box" | "grid">("box");
   const [transitioning, setTransitioning] = useState(false);
-  const gridContainerRef = useRef<HTMLDivElement>(null);
-
-  // Measure grid positions when in grid mode
-  useEffect(() => {
-    if (mode === "grid" && gridContainerRef.current) {
-      // Small delay to ensure layout is complete
-      const timer = setTimeout(() => {
-        const container = gridContainerRef.current;
-        if (!container) return;
-
-        const items = container.querySelectorAll('[data-grid-item]');
-        const positions: { x: number; y: number }[] = [];
-
-        items.forEach((item) => {
-          const rect = item.getBoundingClientRect();
-          
-          // Calculate position relative to viewport center (where images start)
-          const viewportCenterX = window.innerWidth / 2;
-          const viewportCenterY = window.innerHeight / 2;
-          
-          positions.push({
-            x: rect.left + rect.width / 2 - viewportCenterX,
-            y: rect.top + rect.height / 2 - viewportCenterY,
-          });
-        });
-
-      }, 100);
-
-      return () => clearTimeout(timer);
-    }
-  }, [mode]);
 
   const handleModeSwitch = async (newMode: "box" | "grid") => {
     if (newMode === mode || transitioning) return;
