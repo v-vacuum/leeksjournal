@@ -59,8 +59,8 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={TITLE_TRANSITION}
-            className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 
-            text-6xl md:text-6xl font-bold text-[#265DB6] pointer-events-none z-50 select-none text-center"
+            className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2
+            text-5xl md:text-5xl font-bold text-[#265DB6] pointer-events-none z-50 select-none text-center"
             style={{ 
               fontFamily: "'Inria Serif', serif",
               top: '48%'
@@ -78,10 +78,9 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="text-5xl md:text-5xl font-bold text-[#265DB6] pointer-events-none z-40 select-none text-center sticky"
-            style={{ 
+            className="text-4xl md:text-5xl font-bold text-[#265DB6] pointer-events-none z-40 select-none text-center sticky top-[75px] md:top-[65px]"
+            style={{
               fontFamily: "'Inria Serif', serif",
-              top: '65px'
             }}
           >
             <div>vivi&apos;s memory box</div>
