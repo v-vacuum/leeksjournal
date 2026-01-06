@@ -10,6 +10,7 @@ const inriaSerif = Inria_Serif({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://vivijournal.vercel.app"),
   title: "vivi's journal!",
   description: "she be eating this up ngl",
   icons: {
