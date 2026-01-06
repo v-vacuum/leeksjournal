@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "vivi's journal!",
   description: "she be eating this up ngl",
   icons: {
-    icon: "/boxMode.svg",
+    icon: "/durama-favicon.png",
   },
   openGraph: {
     title: "vivi's journal!",
