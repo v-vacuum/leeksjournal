@@ -165,7 +165,7 @@ export default function CustomShapedHoverImage({
         sizes={
           useFill
             ? `(max-width: 768px) 90vw, ${defaultMaxWidth}`
-            : undefined
+            : `(max-width: 768px) ${displayWidth ? Math.round(displayWidth * 0.7) : 400}px, ${displayWidth}px`
         }
         style={{
           objectFit: "contain",
@@ -185,7 +185,7 @@ export default function CustomShapedHoverImage({
         sizes={
           useFill
             ? `(max-width: 768px) 90vw, ${defaultMaxWidth}`
-            : undefined
+            : `(max-width: 768px) ${displayWidth ? Math.round(displayWidth * 0.7) : 400}px, ${displayWidth}px`
         }
         style={{
           objectFit: "contain",
