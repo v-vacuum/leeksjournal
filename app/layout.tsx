@@ -12,15 +12,18 @@ const inriaSerif = Inria_Serif({
 export const metadata: Metadata = {
   title: "vivi's journal!",
   description: "she be eating this up ngl",
+  icons: {
+    icon: "/boxMode.svg",
+  },
   openGraph: {
     title: "vivi's journal!",
     description: "she be eating this up ngl",
     images: [
       {
-        url: '/thumbnail.png',
+        url: "/thumbnail.png",
         width: 1200,
         height: 630,
-      }
+      },
     ],
   },
 };
