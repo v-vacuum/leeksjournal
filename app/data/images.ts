@@ -12,6 +12,7 @@ export const images = [
     src: "/lego-gengar.png",
     hoverSrc: "/lego-gengar-hover.png",
     alt: "lego genger",
+    width: 360,
     height: 600,
   },
   {
@@ -20,6 +21,7 @@ export const images = [
     hoverSrc: "/shark-hover.png",
     alt: "shark",
     width: 500,
+    height: 574,
   },
   {
     id: 4,
@@ -27,6 +29,7 @@ export const images = [
     hoverSrc: "/photo-strip-hover.png",
     alt: "photo strip",
     width: 200,
+    height: 585,
   },
   {
     id: 5,
@@ -34,6 +37,7 @@ export const images = [
     hoverSrc: "/warhammer-hover.png",
     alt: "warhammer receipt",
     width: 200,
+    height: 531,
   },
 
   {
@@ -66,6 +70,7 @@ export const images = [
     hoverSrc: "/cindy-kitty-hover.png",
     alt: "cindy's hello kitty haiku",
     width: 600,
+    height: 396,
   },
   {
     id: 10,
@@ -89,6 +94,7 @@ export const images = [
     hoverSrc: "/wifey-hover.png",
     alt: "wifey's card to me <3",
     width: 500,
+    height: 362,
   },
   // Add more images as needed
 ];
