@@ -88,7 +88,6 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             className="text-4xl md:text-5xl font-bold text-[#265DB6] pointer-events-none z-40 select-none text-center sticky top-[75px] md:top-[65px]"
             style={{
               fontFamily: "'Inria Serif', serif",
-              fontFamily: "'Inria Serif', serif",
               top: "65px",
             }}
           >
