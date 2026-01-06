@@ -29,7 +29,8 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
   const imagePositions = useMemo(() => {
     return images.map((_, i) => {
       const angle = (i / images.length) * 2 * Math.PI - Math.PI / 2;
-      const randomRotation = Math.random() * ROTATION_RANGE - ROTATION_RANGE / 2;
+      const randomRotation =
+        Math.random() * ROTATION_RANGE - ROTATION_RANGE / 2;
       return {
         x: BOX_RADIUS_X * Math.cos(angle),
         y: BOX_RADIUS_Y * Math.sin(angle),
@@ -38,19 +39,25 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
     });
   }, [images.length]);
 
-  const handleModeSwitch = useCallback(async (newMode: "box" | "grid") => {
-    if (newMode === mode || transitioning) return;
-    
-    setTransitioning(true);
-    await new Promise(resolve => setTimeout(resolve, TRANSITION_DELAY));
-    setMode(newMode);
-    await new Promise(resolve => setTimeout(resolve, 50));
-    setTransitioning(false);
-  }, [mode, transitioning]);
+  const handleModeSwitch = useCallback(
+    async (newMode: "box" | "grid") => {
+      if (newMode === mode || transitioning) return;
+
+      setTransitioning(true);
+      await new Promise((resolve) => setTimeout(resolve, TRANSITION_DELAY));
+      setMode(newMode);
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      setTransitioning(false);
+    },
+    [mode, transitioning],
+  );
 
   return (
-    <div className="relative min-h-screen bg-[#f9f9f9]" style={{ scrollbarGutter: 'stable' }}>      
-    {/* Title */}
+    <div
+      className="relative min-h-screen bg-[#f9f9f9]"
+      style={{ scrollbarGutter: "stable", overflowY: "scroll" }}
+    >
+      {/* Title */}
       <AnimatePresence mode="wait">
         {!transitioning && mode === "box" && (
           <motion.h1
@@ -60,10 +67,10 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             exit={{ opacity: 0 }}
             transition={TITLE_TRANSITION}
             className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2
-            text-5xl md:text-5xl font-bold text-[#265DB6] pointer-events-none z-50 select-none text-center"
-            style={{ 
+            text-6xl md:text-6xl font-bold text-[#265DB6] pointer-events-none z-50 select-none text-center"
+            style={{
               fontFamily: "'Inria Serif', serif",
-              top: '48%'
+              top: "48%",
             }}
           >
             <div>vivi&apos;s</div>
@@ -81,6 +88,8 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             className="text-4xl md:text-5xl font-bold text-[#265DB6] pointer-events-none z-40 select-none text-center sticky top-[75px] md:top-[65px]"
             style={{
               fontFamily: "'Inria Serif', serif",
+              fontFamily: "'Inria Serif', serif",
+              top: "65px",
             }}
           >
             <div>vivi&apos;s memory box</div>
@@ -92,8 +101,16 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
       <div className="sticky z-50 flex justify-center" style={{ top: "130px" }}>
         <div className="flex gap-4">
           {[
-            { mode: "box" as const, icon: "/boxMode.svg", label: "in the box view" },
-            { mode: "grid" as const, icon: "/gridMode.svg", label: "grid view" }
+            {
+              mode: "box" as const,
+              icon: "/boxMode.svg",
+              label: "in the box view",
+            },
+            {
+              mode: "grid" as const,
+              icon: "/gridMode.svg",
+              label: "grid view",
+            },
           ].map(({ mode: btnMode, icon, label }) => (
             <button
               key={btnMode}
@@ -113,8 +130,8 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
               />
               <span
-                className="absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0 
-                group-hover:opacity-100 transition-opacity text-[#265DB6] text-sm font-medium 
+                className="absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-0
+                group-hover:opacity-100 transition-opacity text-[#265DB6] text-sm font-medium
                 pointer-events-none px-3 py-1"
                 style={{
                   fontFamily: "'Inria Serif', serif",
@@ -141,10 +158,10 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
             return (
               <motion.div
                 key={img.id}
-                animate={{ 
-                  x: finalX, 
+                animate={{
+                  x: finalX,
                   y: finalY,
-                  rotate: transitioning ? 0 : rotation
+                  rotate: transitioning ? 0 : rotation,
                 }}
                 transition={{
                   type: "spring",
@@ -175,10 +192,10 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
         </div>
       )}
 
-{/* Grid Mode */}
-<AnimatePresence>
+      {/* Grid Mode */}
+      <AnimatePresence>
         {mode === "grid" && !transitioning && (
-          <motion.div 
+          <motion.div
             key="grid-container"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -197,7 +214,7 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
                     delay: 0.3 + index * 0.04, // Added base delay
                     type: "spring",
                     stiffness: 260,
-                    damping: 20
+                    damping: 20,
                   }}
                   className="cursor-pointer"
                 >
