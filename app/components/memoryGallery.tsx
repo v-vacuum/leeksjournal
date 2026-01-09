@@ -55,7 +55,7 @@ export default function MemoryGallery({ images }: { images: MemoryImage[] }) {
   return (
     <div
       className="relative min-h-screen bg-[#f9f9f9]"
-      style={{ scrollbarGutter: "stable", overflowY: "scroll" }}
+      style={{ scrollbarGutter: "stable" }}
     >
       {/* Title */}
       <AnimatePresence mode="wait">
